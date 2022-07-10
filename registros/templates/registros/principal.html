@@ -14,7 +14,7 @@
 <table class="text-center table table-bordered table-striped">
     <thead>
         <tr>
-            <th>Foto</th>
+            
             <th>Matricula</th>
             <th>Nombre</th>
             <th>Carrera</th>
@@ -26,9 +26,7 @@
     <tbody>
         {% for alumno in alumnos %}
         <tr>
-            <td class="text-center">
-                <img src="{{ alumno.imagen.url }}" class="img-circle" alt="Image" width="50px">
-            </td>
+          
             <td class="text-semibold">{{alumno.matricula}}</td>
             <td class="muted">{{alumno.nombre}}</td>
             <td class="muted">{{alumno.carrera}}</td>

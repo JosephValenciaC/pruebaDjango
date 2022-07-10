@@ -3,6 +3,21 @@ from .models import Alumnos, Comentario, ComentarioContacto
 from .forms import AlumnosForm, ComentarioContactoForm
 from django.shortcuts import get_object_or_404
 
+def registroAlumnos(request):
+    alumno = Alumnos.objects.all()
+    return render(request, 'registros/registroAlumnos.html', {'alumno': alumno})
+
+def registrarAlumno(request):
+    if request.method == 'POST':
+        form = AlumnosForm(request.POST)
+        if form.is_valid():
+            form.save()
+            alumnos = Alumnos.objects.all()
+            return render(request, 'registros/principal.html', {'alumnos': alumnos})
+        form = AlumnosForm()
+        # Si algo sale mal se reenvia al formulario los datos ingresados
+        return render(request, 'registros/registroAlumnos.html', {'form': form})
+
 # Eliminar Alumno
 def eliminarAlumno(request, id, confirmacion2 = 'registros/confirmarEliminacionAlumno.html'):
     alumno = get_object_or_404(Alumnos, id=id)
@@ -14,7 +29,9 @@ def eliminarAlumno(request, id, confirmacion2 = 'registros/confirmarEliminacionA
 
 def consultarAlumno(request, id):
     alumno = Alumnos.objects.get(id=id)
-    return render(request, 'registros/formEditarAlumno.html', {'alumno': alumno})
+    return render(request, 'registros/registroAlumnos.html', {'alumno': alumno})
+
+
 # Eliminar//
 
 # Editar
