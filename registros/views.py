@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Alumnos, Comentario, ComentarioContacto
-from .forms import ComentarioContactoForm
+from .forms import AlumnosForm, ComentarioContactoForm
 from django.shortcuts import get_object_or_404
 
 # Eliminar Alumno
@@ -12,10 +12,21 @@ def eliminarAlumno(request, id, confirmacion2 = 'registros/confirmarEliminacionA
         return render(request, 'registros/principal.html', {'alumnos': alumnos})
     return render(request, confirmacion2, {'object': alumno})
 
+def consultarAlumno(request, id):
+    alumno = Alumnos.objects.get(id=id)
+    return render(request, 'registros/formEditarAlumno.html', {'alumno': alumno})
+# Eliminar//
 
+# Editar
 def editarAlumno(request, id):
     alumno = get_object_or_404(Alumnos, id=id)
-
+    form = AlumnosForm(request.POST, instance=alumno)
+    
+    if form.is_valid():
+            form.save()
+            alumnos = Alumnos.objects.all()
+            return render(request, 'registros/principal.html', {'alumnos': alumnos})
+    return render(request, 'registros/formEditarAlumno.html', {'alumno':alumno})
 
 def registros(request):
     alumnos=Alumnos.objects.all()
@@ -48,8 +59,6 @@ def consultarComentario(request, id):
     return render(request, 'registros/formEditarComentario.html', {'comentario': comentario})
 # Eliminar//
 
-
-
 # Editar
 def editarComentario(request, id):
     comentario = get_object_or_404(ComentarioContacto, id=id)
@@ -60,6 +69,7 @@ def editarComentario(request, id):
         comentarios = ComentarioContacto.objects.all()
         return render(request, 'registros/comentarios.html', {'comentarios': comentarios})
     return render(request, 'registros/formEditarComentario.html', {'comentario':comentario })
+
 
 # /Editar
 
