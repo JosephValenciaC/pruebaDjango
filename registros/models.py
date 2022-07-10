@@ -5,6 +5,7 @@ from ckeditor.fields import RichTextField
 
 
 class Alumnos(models.Model): #Define la estructura de la tabla
+    id = models.AutoField(primary_key=True, verbose_name="ID")
     matricula = models.CharField(max_length=12, verbose_name="Mat") #Define el tipo de dato y el tamaño
     nombre = models.TextField() #TExto largo
     carrera = models.TextField() 

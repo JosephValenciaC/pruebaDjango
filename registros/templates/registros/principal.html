@@ -11,7 +11,7 @@
 </div>
 
 {% endblock %} {% block contenido %}
-<table class="table table-bordered table-striped">
+<table class="text-center table table-bordered table-striped">
     <thead>
         <tr>
             <th>Foto</th>
@@ -19,6 +19,8 @@
             <th>Nombre</th>
             <th>Carrera</th>
             <th>Turno</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -31,8 +33,12 @@
             <td class="muted">{{alumno.nombre}}</td>
             <td class="muted">{{alumno.carrera}}</td>
             <td class="muted">{{alumno.turno}}</td>
-        </tr>
-        {% endfor %}
+
+            <!-- <td class="text-center"><a href="{%url 'ConsultarIndividual' alumno.id %}">Editar</a> -->
+            <td class="text-center"><a href="{%url 'EliminarAlumno' alumno.id %}">Eliminar</a></td>
+
+            </td>
+            {% endfor %}
     </tbody>
 
 </table>

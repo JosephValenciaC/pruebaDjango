@@ -30,6 +30,8 @@ urlpatterns = [
     path('eliminarComentario/<int:id>/', views_registros.eliminarComentarioContacto, name='Eliminar'),
     path('formEditarComentario/<int:id>/', views_registros.consultarComentario, name='ConsultarIndividual'),
     path('editarComentario/<int:id>/', views_registros.editarComentario, name='Editar'),
+    # Alumnos
+    path('eliminarAlumno/<int:id>/', views_registros.eliminarAlumno, name='EliminarAlumno'),
     
 ]
 
