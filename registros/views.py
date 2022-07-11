@@ -29,7 +29,7 @@ def eliminarAlumno(request, id, confirmacion2 = 'registros/confirmarEliminacionA
 
 def consultarAlumno(request, id):
     alumno = Alumnos.objects.get(id=id)
-    return render(request, 'registros/registroAlumnos.html', {'alumno': alumno})
+    return render(request, 'registros/formEditarAlumno.html', {'alumno': alumno})
 
 
 # Eliminar//

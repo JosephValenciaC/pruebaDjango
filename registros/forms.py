@@ -10,4 +10,4 @@ class ComentarioContactoForm(forms.ModelForm):
 class AlumnosForm(forms.ModelForm):
     class Meta:
         model = Alumnos
-        fields = ('nombre', 'carrera', 'turno')
+        fields = ('matricula','nombre', 'carrera', 'turno')
