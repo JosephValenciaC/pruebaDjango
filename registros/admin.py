@@ -6,10 +6,20 @@ from .models import ComentarioContacto
 
 class AdministarModelo(admin.ModelAdmin):
     readonly_fields: Sequence[str] = ('created', 'update')
-    list_display = ('matricula', 'nombre', 'carrera', 'turno')
+    list_display = ('matricula', 'nombre', 'carrera', 'turno', 'created')
     search_fields: Sequence[str] = ('matricula', 'nombre', 'carrera', 'turno')
     date_hierarchy = 'created'
     list_filter = ('carrera','turno')
+    
+    def get_readonly_fields(self, request, obj=None):
+    # Si el usuario perrtenece al grupo 'admin'
+        if request.user.groups.filter(name='usuarios').exists():
+        # Bloquea los campos
+            return ('matricula', 'carrera', 'turno')
+    # Cualquier otro usuario que no pertenece al grupo usuarios
+        else:
+        # Bloquea los campos
+            return('created', 'update')
 
 admin.site.register(Alumnos, AdministarModelo)
 

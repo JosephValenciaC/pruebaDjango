@@ -1,7 +1,13 @@
+from datetime import datetime
+from certifi import where
 from django.shortcuts import render
 from .models import Alumnos, Comentario, ComentarioContacto
 from .forms import AlumnosForm, ComentarioContactoForm
 from django.shortcuts import get_object_or_404
+import datetime
+from .models import Archivos
+from .forms import FormArchivos
+from django.contrib import messages 
 
 def registroAlumnos(request):
     alumno = Alumnos.objects.all()
@@ -99,3 +105,58 @@ def coment(request):
     comentarios = ComentarioContacto.objects.all()
     return render(request, 'registros/comentarios.html', {'comentarios': comentarios})
     
+    
+def consultar1(request,):
+    alumnos = Alumnos.objects.filter(carrera="Ti")
+    return render(request, 'registros/consultas.html', {'alumnos': alumnos})
+
+
+def consultar2(request,):
+    alumnos = Alumnos.objects.filter(carrera="Ti").filter(turno="Matutino")
+    return render(request, 'registros/consultas.html', {'alumnos': alumnos})
+
+
+def consultar3(request,):
+    alumnos = Alumnos.objects.all().only('matricula', 'nombre', 'carrera', 'turno', 'imagen')
+    return render(request, 'registros/consultas.html', {'alumnos': alumnos})
+
+
+def consultar4(request,):
+    alumnos = Alumnos.objects.filter(turno__contains="Vesp")
+    return render(request, 'registros/consultas.html', {'alumnos': alumnos})
+
+
+def consultar5(request,):
+    alumnos = Alumnos.objects.filter(nombre__in=['Juan', 'Ana'])
+    return render(request, 'registros/consultas.html', {'alumnos': alumnos})
+
+
+def consultar6(request,):
+    fechaInicio = datetime.date(2022, 7, 1)
+    fechaFin = datetime.date(2022, 7, 14)
+    alumnos = Alumnos.objects.filter(created__range=(fechaInicio, fechaFin))
+    return render(request, 'registros/consultas.html', {'alumnos': alumnos})
+
+def consultar7(request,):
+    alumnos = Alumnos.objects.filter(comentario__coment__contains="Hola")
+    return render(request, 'registros/consultas.html', {'alumnos': alumnos})
+
+
+def archivos(request):
+    if request.method == 'POST':
+        form = FormArchivos(request.POST, request.FILES)
+        if form.is_valid():
+            titulo =request.POST['titulo']
+            descripcion =request.POST['descripcion']
+            archivo =request.FILES['archivo']
+            insert = Archivos(titulo=titulo, descripcion=descripcion, archivo=archivo)
+            insert.save()
+            return render(request, 'registros/archivos.html')
+        else:
+            messages.error(request, 'Error al subir el archivo')
+    else:
+        return render(request, 'registros/archivos.html', {'archivo':Archivos})
+    
+def consultasSQL(request):
+    alumnos=Alumnos.objects.raw('SELECT id, matricula, nombre, carrera, turno, imagen FROM registros_alumnos where carrera="TI" ORDER BY turno DESC')
+    return render (request, 'registros/consultas.html', {'alumnos':alumnos})
