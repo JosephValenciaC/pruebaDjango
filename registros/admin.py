@@ -10,6 +10,9 @@ class AdministarModelo(admin.ModelAdmin):
     search_fields: Sequence[str] = ('matricula', 'nombre', 'carrera', 'turno')
     date_hierarchy = 'created'
     list_filter = ('carrera','turno')
+    list_per_page = 2
+    list_display_links = ('matricula', 'nombre')
+    list_editable = ('turno',)
     
     def get_readonly_fields(self, request, obj=None):
     # Si el usuario perrtenece al grupo 'admin'
@@ -20,6 +23,7 @@ class AdministarModelo(admin.ModelAdmin):
         else:
         # Bloquea los campos
             return('created', 'update')
+        
 
 admin.site.register(Alumnos, AdministarModelo)
 
@@ -39,3 +43,4 @@ class AdministrarComentariosContacto(admin.ModelAdmin):
     readonly_fields: Sequence[str] = ('created', 'id')
     
 admin.site.register(ComentarioContacto, AdministrarComentariosContacto)
+

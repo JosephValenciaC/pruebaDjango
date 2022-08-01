@@ -44,6 +44,7 @@ urlpatterns = [
     path('consultas7/', views_registros.consultar7, name='Consultas7'),
     path('subir/', views_registros.archivos, name='Subir'),
     path('consultasSQL/', views_registros.consultasSQL, name='sql'),
+    path('seguridad/', views_registros.seguridad, name='Seguridad'),
 ]
 
 
